@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  django_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/app/friendly
+      - static_vol:/home/app/friendly/staticfiles
+      - media_vol:/home/app/friendly/media
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      - SQL_HOST=db
+      - SQL_PORT=${POSTGRES_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      gunicorn friendly.wsgi:application --bind 0.0.0.0:8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_vol:/home/app/friendly/staticfiles
+      - media_vol:/home/app/friendly/media
+    ports:
+      - 1337:80
+    depends_on:
+      - db
+      - django_app
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:1337/"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U friendly_user -d Friendly"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  static_vol:
+  media_vol:
+  postgres_data:
