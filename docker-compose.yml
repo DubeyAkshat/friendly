@@ -36,7 +36,7 @@ services:
       - static_vol:/home/app/friendly/staticfiles
       - media_vol:/home/app/friendly/media
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - db
       - django_app
