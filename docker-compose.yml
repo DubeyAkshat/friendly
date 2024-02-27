@@ -20,8 +20,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: >
-      gunicorn friendly.wsgi:application --bind 0.0.0.0:8000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 10s
@@ -41,7 +39,7 @@ services:
       - db
       - django_app
     # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:1337/"]
+    #   test: ["CMD", "curl", "-f", "http://localhost:80/"]
     #   interval: 10s
     #   timeout: 5s
     #   retries: 5

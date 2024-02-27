@@ -48,9 +48,9 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
 # Copy entrypoint.sh
-# COPY ./entrypoint.sh $HOME
-# RUN sed -i 's/\r$//g'  $HOME/entrypoint.sh
-# RUN chmod +x  $HOME/entrypoint.sh
+COPY ./entrypoint.sh $HOME
+RUN sed -i 's/\r$//g'  $HOME/entrypoint.sh
+RUN chmod +x  $HOME/entrypoint.sh
 
 # Copy project
 COPY . $APP_HOME
@@ -67,4 +67,4 @@ RUN apt-get autoremove -y \
 USER app
 
 # Run entrypoint.sh
-# ENTRYPOINT $HOME/entrypoint.sh
+ENTRYPOINT $HOME/entrypoint.sh
