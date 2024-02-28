@@ -56,6 +56,7 @@ def user_settings_view(request):
         form = UserSettingsForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+        return redirect('core:index')
     else:
         form = UserSettingsForm(instance=request.user)
-    return render(request, 'setting.html', {'form': form})
+        return render(request, 'setting.html', {'form': form})
