@@ -30,13 +30,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', cast=Csv()
+    'ALLOWED_HOSTS', default='localhost,127.0.0.1,[::1],0', cast=Csv()
 )
-
-# Configurations post nginx implementation
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = ('localhost')
 
 
 # Application definition
