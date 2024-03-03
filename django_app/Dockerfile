@@ -35,7 +35,7 @@ RUN addgroup --system app && adduser --system --group app
 
 # Create the appropriate directories
 ENV HOME=/home/app
-ENV APP_HOME=/home/app/friendly
+ENV APP_HOME=/home/app/django_app
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
@@ -48,9 +48,9 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
 # Copy entrypoint.sh
-COPY ./entrypoint.sh $HOME
-RUN sed -i 's/\r$//g'  $HOME/entrypoint.sh
-RUN chmod +x  $HOME/entrypoint.sh
+COPY ./scripts $HOME/scripts
+RUN sed -i 's/\r$//g'  $HOME/scripts/*
+RUN chmod +x  $HOME/scripts/*
 
 # Copy project
 COPY . $APP_HOME
@@ -67,4 +67,4 @@ RUN apt-get autoremove -y \
 USER app
 
 # Run entrypoint.sh
-ENTRYPOINT $HOME/entrypoint.sh
+ENTRYPOINT $HOME/scripts/entrypoint.sh
