@@ -46,7 +46,7 @@ class UserSignInForm(AuthenticationForm):
 
 
 class UserSettingsForm(forms.ModelForm):
-    class Meta():
+    class Meta:
         model = User
         fields = (
             'email',
