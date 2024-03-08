@@ -38,7 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField()
-    profile_picture = models.ImageField(upload_to="profile_pictures", default='blank-profile-picture.png')
+    profile_picture = models.ImageField(upload_to="profile_images", default='blank-profile-picture.png')
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
 
