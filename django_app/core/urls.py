@@ -7,7 +7,8 @@ from .views import (
     profile_view,
     user_settings_view,
     create_post_view,
-    like_post_view
+    like_post_view,
+    delete_post_view,
 )
 
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path('settings/', user_settings_view, name='user_settings'),
     path('create-post/', create_post_view, name='create-post'),
     path('like-post/', like_post_view, name='like-post'),
+    path('delete-post/', delete_post_view, name='delete-post'),
     path('', index_view, name='index'),
 ]

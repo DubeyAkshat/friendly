@@ -97,4 +97,11 @@ def like_post_view(request):
     else:
         post.liked_by.add(request.user)
     return redirect('core:index')
- 
+
+
+@login_required(login_url='core:user_signin')
+def delete_post_view(request):
+    post=get_object_or_404(Post, id=request.GET.get('post_id'))
+    if post.user == request.user:
+        post.delete()
+    return redirect('core:index')
