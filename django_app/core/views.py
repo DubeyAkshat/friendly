@@ -59,4 +59,5 @@ def user_settings_view(request):
         return redirect('core:index')
     else:
         form = UserSettingsForm(instance=request.user)
-        return render(request, 'setting.html', {'form': form})
+        return render(request, 'settings.html', {'form': form})
+
