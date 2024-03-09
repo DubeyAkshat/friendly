@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse
 
-from .forms import UserSignUpForm, UserSignInForm, UserSettingsForm
+from .forms import UserSignUpForm, UserSignInForm, UserSettingsForm, CreatePostForm
 from .decorators import not_logged_in
 
 # Create your views here.
@@ -42,7 +44,8 @@ def user_signout_view(request):
 
 @login_required(login_url='core:user_signin')
 def index_view(request):
-    return render(request, 'index.html')
+    create_post_form = CreatePostForm()
+    return render(request, 'index.html', {'user': request.user, 'create_post_form': create_post_form})
 
 
 @login_required(login_url='core:user_signin')
@@ -61,3 +64,16 @@ def user_settings_view(request):
         form = UserSettingsForm(instance=request.user)
         return render(request, 'settings.html', {'form': form})
 
+
+@login_required(login_url='core:user_signin')
+@require_http_methods(["POST"])
+def create_post_view(request):
+    form = CreatePostForm(request.POST, request.FILES)
+    print(form)
+    if form.is_valid():
+        new_post = form.save(commit=False)
+        new_post.user = request.user
+        new_post.save()
+        return redirect('core:index')
+    else:
+        return HttpResponse("Invalid request")

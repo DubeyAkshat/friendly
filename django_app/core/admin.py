@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.auth.forms import UsernameField, UserCreationForm
 
-from .models import User
+from .models import User, Post
 
 # Register your models here.
 
@@ -60,3 +60,6 @@ class CustomAdminSite(admin.AdminSite):
     login_form = CustomAdminAuthenticationForm
 
 admin_site = CustomAdminSite(name='customadmin')
+
+
+admin.site.register(Post)

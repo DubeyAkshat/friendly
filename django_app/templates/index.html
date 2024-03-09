@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
             <header>
                 <div class="header_inner">
                     <div class="left-side">
@@ -49,16 +48,17 @@
                     <div class="right-side lg:pr-4">
                          <!-- upload -->
                         <a href="#"
-                            class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
-                            <ion-icon name="add-circle" class="-mb-1
-                             mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload Pics / Videos
+                            class="bg-pink-500 flex font-bold hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white" style="display:flex;">
+                            <!-- <ion-icon name="add-circle" class="-mb-1
+                             mr-1 opacity-90 text-xl uilus-circle"></ion-icon> --> 
+                            Post
                         </a>
                          <!-- upload dropdown box -->
                         <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
     
                             <!-- notivication header -->
                             <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
-                                <h4>Upload Pics or Videos</h4>
+                                <h4>Create a Post</h4>
                             </div>
     
                             <!-- notification contents -->
@@ -72,18 +72,21 @@
                                             <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
                                         </svg>
                                     </div>
-
-                                    <p class="my-3 leading-6"> Upload pics or videos <br> please upload her ..
-                                    </p>
-                                    <div uk-form-custom>
-                                        <input type="file">
-                                        <a href="#" class="button soft-warning small"> Choose file</a>
-                                    </div>
-    
-                                    <a href="#" class="uk-text-muted mt-3 uk-link"
-                                        uk-toggle="target: .choose-upload ;  animation: uk-animation-slide-right-small, uk-animation-slide-left-medium; queued: true">
-                                        Or Import Video </a>
-                                </div>
+                                    <form action="{% url 'core:create-post' %}" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div>
+                                            <!-- <input type="file">
+                                            <a href="#" class="button soft-warning small"> Choose file</a> -->
+                                            {{ create_post_form }}
+                                            <br>
+                                            <button class="button bg-blue-700" type="submit">Post</button>
+                                        </div>
+                                        
+                                        <!-- <a href="#" class="uk-text-muted mt-3 uk-link"
+                                            uk-toggle="target: .choose-upload ;  animation: uk-animation-slide-right-small, uk-animation-slide-left-medium; queued: true">
+                                            Or Import Video </a> -->
+                                        </div>
+                                    </form>
     
                                 <div class="uk-flex uk-flex-column choose-upload" hidden>
                                     <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
@@ -105,9 +108,9 @@
                                 </div>
     
                             </div>
-                            <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
+                            <!-- <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
                                 Your Video size Must be Maxmium 999MB
-                            </div>
+                            </div> -->
                         </div>
                         
                          <!-- Notification -->

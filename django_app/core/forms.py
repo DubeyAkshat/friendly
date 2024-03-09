@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import User, Post
 
 
 class UserSignUpForm(UserCreationForm): 
@@ -81,3 +81,15 @@ class UserSettingsForm(forms.ModelForm):
             if User.objects.filter(email__iexact=email).exists():
                 self.add_error("email", self.instance.unique_error_message(User, ["email"]))
         return email
+
+
+class CreatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = (
+            'image',
+            'caption',
+        )
+        widgets = {
+            'caption': forms.Textarea(attrs={'rows': 5}),
+        }

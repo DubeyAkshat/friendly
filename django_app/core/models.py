@@ -68,3 +68,15 @@ class User(AbstractBaseUser, PermissionsMixin):
                 name='unique_username_case_insensitive',
             )
         ]
+
+
+class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="post_images")
+    caption = models.TextField(max_length=100)
+    liked_by = models.ManyToManyField(User, blank=True, related_name="liked_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.caption
