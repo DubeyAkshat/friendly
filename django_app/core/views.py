@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from .forms import UserSignUpForm, UserSignInForm, UserSettingsForm, CreatePostForm
 from .decorators import not_logged_in
+from .models import Post
 
 # Create your views here.
 
@@ -45,7 +46,16 @@ def user_signout_view(request):
 @login_required(login_url='core:user_signin')
 def index_view(request):
     create_post_form = CreatePostForm()
-    return render(request, 'index.html', {'user': request.user, 'create_post_form': create_post_form})
+    posts = Post.objects.all().order_by('-created_at')
+    return render(
+        request,
+        'index.html',
+        {
+            'user': request.user,
+            'create_post_form': create_post_form,
+            'posts': posts,
+        }
+    )
 
 
 @login_required(login_url='core:user_signin')
@@ -77,3 +87,14 @@ def create_post_view(request):
         return redirect('core:index')
     else:
         return HttpResponse("Invalid request")
+
+
+@login_required(login_url='core:user_signin')
+def like_post_view(request):
+    post = get_object_or_404(Post, id=request.GET.get('post_id'))
+    if request.user in post.liked_by.all():
+        post.liked_by.remove(request.user)
+    else:
+        post.liked_by.add(request.user)
+    return redirect('core:index')
+ 
