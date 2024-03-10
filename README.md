@@ -43,7 +43,7 @@ We offer two setups for your convenience: the **Dockerized setup** and the **Man
 
 6. Run migrations:
     ```bash
-    docker-compose exec django_app python manage.py makemigrations
+    docker-compose exec django_app python manage.py migrate
     ```
     
 7. You can create a `superuser` by using the command:
