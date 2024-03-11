@@ -71,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="post_images")
     caption = models.TextField(max_length=100)
     liked_by = models.ManyToManyField(User, blank=True, related_name="liked_by")
