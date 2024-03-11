@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
 
+    is_featured = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     objects = UserManager()

@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
+from django.db.models import Q
 
 from .forms import UserSignUpForm, UserSignInForm, UserSettingsForm, CreatePostForm
 from .decorators import not_logged_in
@@ -46,7 +47,9 @@ def user_signout_view(request):
 @login_required(login_url='core:user_signin')
 def index_view(request):
     create_post_form = CreatePostForm()
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.filter(
+        Q(created_by=request.user) | Q(created_by__is_featured=True)
+    ).order_by('-created_at')
     return render(
         request,
         'index.html',

@@ -207,8 +207,13 @@
                                     <img src="{{ post.created_by.profile_picture.url }}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                 </div>
                             </a>
-                            <a href="#"><span class="block capitalize font-semibold">@{{ post.created_by }}</span></a>
+                            <a href="#"><span class="block capitalize font-semibold">@{{ post.created_by }}</i></span></a>
                         </div>
+                        {% if post.created_by != request.user %}
+                        <div>
+                            <span><i>Featured</i></span>
+                        </div>
+                        {% endif %}
                         {% if post.created_by == request.user %}
                         <div>
                         <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>

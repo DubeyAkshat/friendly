@@ -36,6 +36,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = [
         (None, {"fields": ("email", "username", "date_of_birth", "password",)}),
         ("Personal info", {"fields": ("profile_picture", "bio", "location")}),
+        ("Special status", {"fields": ("is_featured",)}),
         ("Permissions", {"fields": ("is_superuser", "is_active")}),
     ]
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -43,6 +44,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = [
         (None, {"classes": ["wide"], "fields": ["email", "username", "date_of_birth", "password1", "password2"]}),
         ("Personal info", {"classes": ["wide"], "fields": ["profile_picture", "bio", "location"]}),
+        ("Special status", {"classes": ["wide"], "fields": ["is_featured"]}),
         ("Permissions", {"classes": ["wide"], "fields": ["is_superuser"]}),
     ]
     search_fields = ["email", "username", "location"]
