@@ -130,16 +130,13 @@ If you prefer not to use Docker, you can manually set up and run the application
     python manage.py collectstatic --noinput --clear
     ```
 
-10. Run the application:
-    Navigate to the `friendly/django_app/` directory:
-    ```bash
-    cd django_app
-    ```
-    Start the server:
+10. Run the application:  
+    Navigate to the `friendly/django_app/` directory and start the server.
     - With Gunicorn: 
         ```bash
         gunicorn friendly_django.wsgi:application --bind 0.0.0.0:8000 --reload
         ```
+        OR
     - Without Gunicorn:
         ```bash
         python manage.py runserver
