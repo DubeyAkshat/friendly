@@ -50,15 +50,12 @@ def index_view(request):
     posts = Post.objects.filter(
         Q(created_by=request.user) | Q(created_by__is_featured=True)
     ).order_by('-created_at')
-    return render(
-        request,
-        'index.html',
-        {
-            'user': request.user,
-            'create_post_form': create_post_form,
-            'posts': posts,
-        }
-    )
+    context={
+        'user': request.user,
+        'create_post_form': create_post_form,
+        'posts': posts,
+    }
+    return render(request,'index.html', context)
 
 
 @login_required(login_url='core:user_signin')
