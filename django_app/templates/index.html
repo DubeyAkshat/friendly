@@ -202,12 +202,12 @@
                     <!-- post header-->
                     <div class="flex justify-between items-center px-4 py-3">
                         <div class="flex flex-1 items-center space-x-4">
-                            <a href="#">
+                            <a href="{{ post.created_by.profile_picture.url }}">
                                 <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
                                     <img src="{{ post.created_by.profile_picture.url }}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                 </div>
                             </a>
-                            <a href="#"><span class="block capitalize font-semibold">@{{ post.created_by }}</i></span></a>
+                            <a href="{% url 'core:profile' pk=post.created_by.username %}"><span class="block capitalize font-semibold">@{{ post.created_by }}</i></span></a>
                         </div>
                         {% if post.created_by != request.user %}
                         <div>
@@ -295,16 +295,16 @@
                         {% if likes_count %}
                         <div class="flex items-center space-x-3"> 
                             <div class="flex items-center">
-                                {% for liked_by_user in post.liked_by.all reversed %}
+                                {% for liked_by_user in post.liked_by.all|slice:":3" %}
                                     {% if forloop.first %}
-                                    <img src="{{ liked_by_user.profile_picture.url }}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
+                                    <a href="{% url 'core:profile' pk=liked_by_user.username %}"><img src="{{ liked_by_user.profile_picture.url }}" alt="" class="w-6 h-6 rounded-full border-2 border-white"></a>
                                     {% else %}
-                                    <img src="{{ liked_by_user.profile_picture.url }}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                    <a href="{% url 'core:profile' pk=liked_by_user.username %}"><img src="{{ liked_by_user.profile_picture.url }}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2"></a>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                             <div class="">
-                                Liked by<strong> {{ post.liked_by.all.last }}</strong> 
+                                Liked by<strong> <a href="{% url 'core:profile' pk=post.liked_by.all.last %}">{{ post.liked_by.all.last }}</a></strong> 
                                 {% if likes_count > 1 %}
                                 and 
                                 <strong>

@@ -7,7 +7,7 @@ from django.db.models import Q
 
 from .forms import UserSignUpForm, UserSignInForm, UserSettingsForm, CreatePostForm
 from .decorators import not_logged_in
-from .models import Post
+from .models import User, Post
 
 # Create your views here.
 
@@ -59,8 +59,14 @@ def index_view(request):
 
 
 @login_required(login_url='core:user_signin')
-def profile_view(request):
-    return render(request, 'profile.html')
+def profile_view(request, pk):
+    user_object = get_object_or_404(User, username__iexact=pk)
+    posts = Post.objects.filter(created_by=user_object)
+    context = {
+        'profile_user': user_object,
+        'profile_posts': posts,
+    }
+    return render(request, 'profile.html', context)
 
 
 @login_required(login_url='core:user_signin')
