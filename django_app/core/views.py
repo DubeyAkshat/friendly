@@ -88,7 +88,7 @@ def create_post_view(request):
     print(form)
     if form.is_valid():
         new_post = form.save(commit=False)
-        new_post.user = request.user
+        new_post.created_by = request.user
         new_post.save()
         return redirect('core:index')
     else:
